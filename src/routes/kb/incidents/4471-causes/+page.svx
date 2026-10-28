@@ -13,12 +13,15 @@ signature: Patryk Horodeński
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
-[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. It is not one issue.
-Its reports hold more than one problem. The queued parser fix closes only one of them.
+[#4471](/kb/incidents/4471) was marked known: one issue, one fix queued. It was not one issue.
+Its reports hold more than one problem, and each now has its own ticket.
+
+Engineering closed #4471 on 5 October: the parser is fixed (`fix(dates): parse dd/mm for eu
+locales`), and the booking-v3 form is retired, so its hint won't be fixed.
 
 <Callout kind="warn">
-Fixing the parser will not fix the booking-v3 form or the one-day moves. Keep their tickets
-open until each has its own fix.
+Closing #4471 did not fix the one-day moves. Neither change touches them, so their ticket stays
+open until something does.
 </Callout>
 
 ## The problems

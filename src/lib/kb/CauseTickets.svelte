@@ -30,13 +30,14 @@
 
 <table>
   <thead>
-    <tr><th>ticket</th><th>problem</th><th>reports</th><th>tenants</th><th>came in by</th><th>seen</th></tr>
+    <tr><th>ticket</th><th>state</th><th>problem</th><th>reports</th><th>tenants</th><th>came in by</th><th>seen</th></tr>
   </thead>
   <tbody>
     {#each groups as g (g.cause)}
       {@const t = g.cause === 'unplaced' ? undefined : TICKETS[g.cause]}
       <tr class:wrong={!t}>
         <td>{#if t}<a href={t.url}>#{t.number}</a>{:else}no ticket{/if}</td>
+        <td>{#if t}<span class="state" title={t.why}>{t.state}</span>{/if}</td>
         <td><code>{g.cause}</code></td>
         <td><strong>{g.reports.length}</strong></td>
         <td>{g.tenants}</td>
@@ -47,6 +48,7 @@
     {#if oneDay.length}
       <tr>
         <td><a href={ONE_DAY_MOVE.url}>#{ONE_DAY_MOVE.number}</a></td>
+        <td><span class="state" title={ONE_DAY_MOVE.why}>{ONE_DAY_MOVE.state}</span></td>
         <td>one-day move</td>
         <td><strong>{oneDay.length}</strong></td>
         <td>{new Set(oneDay.map((r) => r.tenant)).size}</td>
@@ -70,5 +72,6 @@
   .sum { font-size: 1.1rem; }
   .tags { color: var(--muted); font-size: 0.85em; }
   .note { color: var(--muted); font-size: 0.85em; }
+  .state { white-space: nowrap; font-weight: 600; }
   .wrong td { background: var(--warn-bg); color: var(--warn); }
 </style>
