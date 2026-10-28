@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 split: one ticket per cause'
+title: '#4471 split: one ticket per problem'
 owner: Patryk Horodeński
 status: open
 reviewed: 2026-10-28
@@ -14,14 +14,14 @@ signature: Patryk Horodeński
 </script>
 
 [#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. It is not one issue.
-Its reports have more than one cause. The queued parser fix closes only one of them.
+Its reports hold more than one problem. The queued parser fix closes only one of them.
 
 <Callout kind="warn">
 Fixing the parser will not fix the booking-v3 form or the one-day moves. Keep their tickets
 open until each has its own fix.
 </Callout>
 
-## The causes
+## The problems
 
 <CauseTickets ticket={4471} />
 
@@ -35,16 +35,17 @@ Counted once per report id: the export pages overlap, so some reports come twice
 - **`hint`**: the booking-v3 form prints `MM/DD/YYYY` under its date field, then reads the date
   day first, the tenant's way. People type what the hint says, and day and month swap. Same
   symptom as `parser`, different code, different fix: only the form of booking-v3 tenants.
-- **`shift`**: the date moves by one day, or one meeting shows on different days for people in
-  different places. No swap explains it. It points at a time-zone conversion, not at the parser.
-  The desk read these as a one-day move (`desk-notes.json`), but they were counted under `parser`.
+- **one-day move**: the date moves by one day, or one meeting shows on different days for people
+  in different places. No swap explains it. It points at a time-zone conversion, not at the
+  parser. The desk read these as a one-day move (`desk-notes.json`) and still files them under
+  their tenant's cause, so they count there too; their own ticket tracks the move.
 
 ## How the split was made
 
 By the rules in `src/lib/kb/causes.ts`: the tenant's locale and form decide the cause, not
 the intake tag. Intake guesses from the reporter's browser, and on #4471 it was wrong both
 ways. Merging by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put
-every cause into one ticket, because the reports all say the same thing: wrong day.
+every problem into one ticket, because the reports all say the same thing: wrong day.
 
 ## Lessons
 

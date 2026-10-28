@@ -37,7 +37,7 @@
         <td>{g.firstSeen} → {g.lastSeen}</td>
         <td>
           {#if g.cause === owner}#{ticket}
-          {:else if g.cause !== 'unplaced' && TICKETS[g.cause]}not this ticket — <a href={TICKETS[g.cause].url}>#{TICKETS[g.cause].number}</a>
+          {:else if g.cause !== 'unplaced'}not this ticket — <a href={TICKETS[g.cause].url}>#{TICKETS[g.cause].number}</a>
           {:else}not this ticket — no ticket of its own{/if}
         </td>
       </tr>
@@ -47,7 +47,7 @@
 
 {#each groups as g (g.cause)}
   {@const moved = readAs(g, notes.oneDayMove)}
-  {#if moved && g.cause !== 'shift'}
+  {#if moved}
     <p class="note">{moved} reports read as a one-day move; filed under <code>{g.cause}</code> by tenant.</p>
   {/if}
 {/each}
