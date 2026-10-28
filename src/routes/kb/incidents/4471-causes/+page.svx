@@ -4,7 +4,7 @@ title: '#4471 split: one ticket per problem'
 owner: Patryk Horodeński
 status: open
 reviewed: 2026-10-28
-signature: Patryk Horodeński
+signature: v1.eyJzdWIiOiI0NjM2IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjI1NzgsImV4cCI6MTc5MzMwODk3OH0.w3tuGS-K_o9mBNkEJ9BmkpUL460usNgaiqr-8empk4U
 ---
 
 <script>
