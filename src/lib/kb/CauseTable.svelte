@@ -3,6 +3,7 @@
   import notes from '#lib/data/desk-notes.json';
   import { groupByCause, readAs, ticketCause, uniqueById, type Report } from '#lib/kb/causes';
   import { tenantOf } from '#lib/kb/locales';
+  import { TICKETS } from '#lib/kb/tickets';
 
   let { ticket }: { ticket: number } = $props();
 
@@ -34,7 +35,11 @@
         <td class="tags">{tags(g)}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
-        <td>{g.cause === owner ? `#${ticket}` : 'not this ticket — no ticket of its own'}</td>
+        <td>
+          {#if g.cause === owner}#{ticket}
+          {:else if g.cause !== 'unplaced' && TICKETS[g.cause]}not this ticket — <a href={TICKETS[g.cause].url}>#{TICKETS[g.cause].number}</a>
+          {:else}not this ticket — no ticket of its own{/if}
+        </td>
       </tr>
     {/each}
   </tbody>

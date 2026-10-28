@@ -1,0 +1,55 @@
+---
+layout: runbook
+title: '#4471 split: one ticket per cause'
+owner: Patryk Horodeński
+status: open
+reviewed: 2026-10-28
+signature: Patryk Horodeński
+---
+
+<script>
+  import CauseTickets from '#lib/kb/CauseTickets.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. It is not one issue.
+Its reports have more than one cause. The queued parser fix closes only one of them.
+
+<Callout kind="warn">
+Fixing the parser will not fix the booking-v3 form or the one-day moves. Keep their tickets
+open until each has its own fix.
+</Callout>
+
+## The causes
+
+<CauseTickets ticket={4471} />
+
+Counted once per report id: the export pages overlap, so some reports come twice.
+
+## What each one is
+
+- **`parser`**: the shared parser reads every date month first. Our tenants write the day
+  first, so day and month swap: 7 April becomes 4 July. Every tenant, through the app, email
+  and the booking-v2 form.
+- **`hint`**: the booking-v3 form prints `MM/DD/YYYY` under its date field, then reads the date
+  day first, the tenant's way. People type what the hint says, and day and month swap. Same
+  symptom as `parser`, different code, different fix: only the form of booking-v3 tenants.
+- **`shift`**: the date moves by one day, or one meeting shows on different days for people in
+  different places. No swap explains it. It points at a time-zone conversion, not at the parser.
+  The desk read these as a one-day move (`desk-notes.json`), but they were counted under `parser`.
+
+## How the split was made
+
+By the rules in `src/lib/kb/causes.ts`: the tenant's locale and form decide the cause, not
+the intake tag. Intake guesses from the reporter's browser, and on #4471 it was wrong both
+ways. Merging by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put
+every cause into one ticket, because the reports all say the same thing: wrong day.
+
+## Lessons
+
+- The same complaint is not the same bug. Before a big ticket is marked known, sort it by
+  cause, not by subject.
+- A report the cause rules cannot place needs a person to read it, and its own count.
+
+<RenderStamp {signature} />
